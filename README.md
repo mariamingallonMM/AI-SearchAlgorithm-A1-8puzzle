@@ -99,7 +99,7 @@ $ python3 driver.py bfs 1,2,5,3,4,0,6,7,8
 
 Which should lead to the following solution to the input board:
 
-[image1.jpg](//resources/image1.jpg)
+![puzzle_state_example](https://github.com/mariamingallonMM/AI-SearchAlgorithm-A1-8puzzle/blob/main/resources/image1.jpg?raw=true)
 
 The output file (example) will contain exactly the following lines:
 
@@ -125,7 +125,9 @@ Suppose the program is executed for depth-first search as follows:
 $ python3 driver.py dfs 1,2,5,3,4,0,6,7,8
 
 Which should lead to the following solution to the input board:
-[image2.jpg](/resources/image2.jpg)
+
+![puzzle_state_example](https://github.com/mariamingallonMM/AI-SearchAlgorithm-A1-8puzzle/blob/main/resources/image2.jpg?raw=true)
+
 
 The output file (example) will contain exactly the following lines:
 
