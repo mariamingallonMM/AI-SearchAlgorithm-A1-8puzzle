@@ -39,11 +39,11 @@ Also note that there is skeleton code available for use (see the third tab of th
 
 
 ## I. Introduction
-An instance of the N-puzzle game consists of a board holding N = m^2 ? 1 (m = 3, 4, 5, ...) distinct movable tiles, plus an empty space. The tiles are numbers from the set {1, …, m^2 ? 1}. For any such board, the empty space may be legally swapped with any tile horizontally or vertically adjacent to it. In this assignment, we will represent the blank space with the number 0 and focus on the m = 3 case (8-puzzle).
+An instance of the N-puzzle game consists of a board holding N = m^2 ? 1 (m = 3, 4, 5, ...) distinct movable tiles, plus an empty space. The tiles are numbers from the set {1, â€¦, m^2 ? 1}. For any such board, the empty space may be legally swapped with any tile horizontally or vertically adjacent to it. In this assignment, we will represent the blank space with the number 0 and focus on the m = 3 case (8-puzzle).
 
-Given an initial state of the board, the combinatorial search problem is to find a sequence of moves that transitions this state to the goal state; that is, the configuration with all tiles arranged in ascending order ?0, 1, …, m^2 ? 1?. The search space is the set of all possible states reachable from the initial state.
+Given an initial state of the board, the combinatorial search problem is to find a sequence of moves that transitions this state to the goal state; that is, the configuration with all tiles arranged in ascending order ?0, 1, â€¦, m^2 ? 1?. The search space is the set of all possible states reachable from the initial state.
 
-The blank space may be swapped with a component in one of the four directions {‘Up’, ‘Down’, ‘Left’, ‘Right’}, one move at a time. The cost of moving from one configuration of the board to another is the same and equal to one. Thus, the total cost of path is equal to the number of moves made from the initial state to the goal state.
+The blank space may be swapped with a component in one of the four directions {â€˜Upâ€™, â€˜Downâ€™, â€˜Leftâ€™, â€˜Rightâ€™}, one move at a time. The cost of moving from one configuration of the board to another is the same and equal to one. Thus, the total cost of path is equal to the number of moves made from the initial state to the goal state.
 
 ## II. Algorithm Review
 Recall from the lectures that searches begin by visiting the root node of the search tree, given by the initial state. Among other book-keeping details, three major things happen in sequence in order to visit a node:
@@ -51,7 +51,7 @@ Recall from the lectures that searches begin by visiting the root node of the se
 First, we remove a node from the frontier set.
 Second, we check the state against the goal state to determine if a solution has been found.
 Finally, if the result of the check is negative, we then expand the node. To expand a given node, we generate successor nodes adjacent to the current node, and add them to the frontier set. Note that if these successor nodes are already in the frontier, or have already been visited, then they should not be added to the frontier again.
-This describes the life-cycle of a visit, and is the basic order of operations for search agents in this assignment—(1) remove, (2) check, and (3) expand. In this assignment, we will implement algorithms as described here. Please refer to lecture notes for further details, and review the lecture pseudocode before you begin the assignment.
+This describes the life-cycle of a visit, and is the basic order of operations for search agents in this assignmentâ€”(1) remove, (2) check, and (3) expand. In this assignment, we will implement algorithms as described here. Please refer to lecture notes for further details, and review the lecture pseudocode before you begin the assignment.
 
 IMPORTANT: Note that you may encounter implementations elsewhere that attempt to short-circuit this order by performing the goal-check on successor nodes immediately upon expansion of a parent node. For example, Russell & Norvig's implementation of breadth-first search does precisely this. Doing so may lead to edge-case gains in efficiency, but do not alter the general characteristics of complexity and optimality for each method. For simplicity and grading purposes in this assignment, do not make such modifications to algorithms learned in lecture.
 
@@ -99,7 +99,7 @@ $ python3 driver.py bfs 1,2,5,3,4,0,6,7,8
 
 Which should lead to the following solution to the input board:
 
-[image1.jpg](/resources/image1.jpg)
+[image1.jpg](//resources/image1.jpg)
 
 The output file (example) will contain exactly the following lines:
 
@@ -162,7 +162,7 @@ Depth-First Search. Use an explicit stack, as shown in lecture.
 A-Star Search. Use a priority queue, as shown in lecture. For the choice of heuristic, use the Manhattan priority function; that is, the sum of the distances of the tiles from their goal positions. Note that the blanks space is not considered an actual tile here.
 #### 2. Order of Visits
 
-In this assignment, where an arbitrary choice must be made, we always visit child nodes in the "UDLR" order; that is, [‘Up’, ‘Down’, ‘Left’, ‘Right’] in that exact order. Specifically: 
+In this assignment, where an arbitrary choice must be made, we always visit child nodes in the "UDLR" order; that is, [â€˜Upâ€™, â€˜Downâ€™, â€˜Leftâ€™, â€˜Rightâ€™] in that exact order. Specifically: 
 
 Breadth-First Search. Enqueue in UDLR order; dequeuing results in UDLR order.
 Depth-First Search. Push onto the stack in reverse-UDLR order; popping off results in UDLR order.
