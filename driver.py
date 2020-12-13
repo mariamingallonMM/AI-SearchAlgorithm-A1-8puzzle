@@ -79,7 +79,7 @@ class PuzzleState(object):
 
                 line.append(self.config[offset + j])
 
-            print(line)
+            #print(line)
 
     #Stack of functions for the possible moves of the '0' key: "Up", "Down", "Left" and "Right" (UDLR)
     def move_up(self):
@@ -105,7 +105,7 @@ class PuzzleState(object):
             return None
         else:
             blank_index = self.blank_row * self.n + self.blank_col
-            target = blank_index - self.n
+            target = blank_index + self.n
             new_config = list(self.config)
             new_config[blank_index], new_config[target] = new_config[target], new_config[blank_index]
             return PuzzleState(tuple(new_config), self.n, parent=self, action="Down", cost=self.cost + 1)
@@ -124,6 +124,7 @@ class PuzzleState(object):
             new_config[blank_index], new_config[target] = new_config[target], new_config[blank_index]
             return PuzzleState(tuple(new_config), self.n, parent=self, action="Left", cost=self.cost + 1)
 
+
     def move_right(self):
             
         """action move blank right"""
@@ -133,7 +134,7 @@ class PuzzleState(object):
             return None
         else:
             blank_index = self.blank_row * self.n + self.blank_col
-            target = blank_index - 1
+            target = blank_index + 1
             new_config = list(self.config)
             new_config[blank_index], new_config[target] = new_config[target], new_config[blank_index]
             return PuzzleState(tuple(new_config), self.n, parent=self, action="Right", cost=self.cost + 1)
@@ -244,8 +245,8 @@ def bfs_search(start_node):
         for child in children:
             if child.config not in explored:
                 if child.test_goal():
-                    print('Success! Solution found using BFS: ')
-                    print(child)
+                    #print('Success! Solution found using BFS: ')
+                    #print(child)
                     Path = child.find_solution()
                     CostOfPath = len(Path)
                     NodesExpanded = len(explored) + len(children) + 1
@@ -344,7 +345,7 @@ def A_star_search(start_node):
     Resources = 0
 
     if start_node.test_goal():
-        print("Solution found using A* search!")
+        #print("Solution found using A* search!")
         return start_node.find_solution()
     
     # initialize explored
@@ -408,19 +409,19 @@ def writeOutput(path, cost_of_path, nodes_expanded, search_depth, max_search_dep
 
     """
     #Print results
-    if print_results is not None:
-        print("path_to_goal: ",str(path)) # the sequence of moves taken to reach the goal
-        print("cost_of_path: ",str(cost_of_path))  # the number of moves taken to reach the goal
-        print("nodes_expanded: ",str(nodes_expanded)) # the number of nodes that have been expanded
-        print("search_depth: ",str(search_depth)) # the depth within the search tree when the goal node is found
-        print("max_search_depth: ",str(max_search_depth)) # the maximum depth of the search tree in the lifetime of the algorithm
-        print("running_time: ",format(time_count, '.8f')) # the total running time of the search instance in seconds
-        print("max_ram_usage: ",format(resources, '.8f'), " megabytes")
+    #if print_results is not None:
+    #    print("path_to_goal: ",str(path)) # the sequence of moves taken to reach the goal
+    #    print("cost_of_path: ",str(cost_of_path))  # the number of moves taken to reach the goal
+    #    print("nodes_expanded: ",str(nodes_expanded)) # the number of nodes that have been expanded
+    #    print("search_depth: ",str(search_depth)) # the depth within the search tree when the goal node is found
+    #    print("max_search_depth: ",str(max_search_depth)) # the maximum depth of the search tree in the lifetime of the algorithm
+    #    print("running_time: ",format(time_count, '.8f')) # the total running time of the search instance in seconds
+    #    print("max_ram_usage: ",format(resources, '.8f'), " megabytes")
 
     #Generate outputs.txt document
     current_path = os.getcwd() #.split('\\')[1:-2]
     filename = 'outputs' + '.txt'
-    filepath = os.path.join('C:\\',current_path,filename) # add * if joining list items
+    filepath = os.path.join(current_path,filename) # add * if joining list items
     file = open(filepath, 'w')
     file.write("path_to_goal: " + str(path) + "\n")
     file.write("cost_of_path: " + str(cost_of_path) + "\n")
@@ -446,7 +447,7 @@ def calculate_resources():
         # the sys.platform is "cygwin"
         # the grading system's sys.platform is "linux2"
         import resource
-        print("resource", resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
+        #print("resource", resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
         return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
 
 
@@ -536,7 +537,7 @@ def main():
 
     #call the class PuzzleState
     hard_config = PuzzleState(begin_config, size) 
-    print(hard_config)
+    #print(hard_config)
 
     if sm == "bfs":
         t0 = time.time()
