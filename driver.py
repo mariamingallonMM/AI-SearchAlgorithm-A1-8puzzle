@@ -17,6 +17,11 @@ from queue import Queue
 ## used for A start algorithm, variant of queue that retrieves entries in priority order (lowest first)
 from queue import PriorityQueue 
 
+# Specific libraries for memory resources
+import psutil 
+import resource
+
+
 ## The Class that Represents the Puzzle
 
 class PuzzleState(object):
@@ -249,9 +254,9 @@ def bfs_search(start_node):
                     #print(child)
                     Path = child.find_solution()
                     CostOfPath = len(Path)
-                    NodesExpanded = len(explored) + len(children) + 1
-                    SearchDepth = len(children)
-                    MaxSearchDepth = calculate_total_cost(child) - CostOfPath
+                    NodesExpanded = len(explored) + len(Path)
+                    SearchDepth = len(Path)
+                    MaxSearchDepth = len(Path)
                     Resources = calculate_resources()
                     return child.find_solution()
                 q.put(child)
@@ -288,6 +293,9 @@ def dfs_search(start_node):
     MaxSearchDepth = -1 
     Resources = 0
 
+    if start_node.test_goal():
+        return start_node.find_solution()
+
     explored = set()
     frontier = list([start_node])
 
@@ -295,15 +303,15 @@ def dfs_search(start_node):
         node = frontier.pop()
         explored.add(node.config)
         if node.test_goal():
-            print('Success! Solution found using DFS: ')
-            print(node)
-            Path = find_solution_dfs(node, start_node)
+            #print('Success! Solution found using DFS: ')
+            #print(node)
+            Path = node.find_solution()
             CostOfPath = len(Path)
-            NodesExpanded = len(explored)
-            SearchDepth = len(children)
-            MaxSearchDepth = calculate_total_cost(node) - CostOfPath
+            NodesExpanded = len(explored) + len(Path)
+            SearchDepth = len(Path)
+            MaxSearchDepth = len(Path)
             Resources = calculate_resources()
-            return node
+            return node.find_solution()
         
         children = node.expand()
         #reverse children to explore deepest node first
@@ -372,13 +380,13 @@ def A_star_search(start_node):
         for child in children:
             if child.config not in explored:
                 if child.test_goal():
-                    print('Success! Solution found using A*: ')
-                    print(child)
+                    #print('Success! Solution found using A*: ')
+                    #print(child)
                     Path = child.find_solution()
                     CostOfPath = len(Path)
-                    NodesExpanded = len(explored) + len(children) + 1
-                    SearchDepth = len(children)
-                    MaxSearchDepth = calculate_total_cost(child) - CostOfPath
+                    NodesExpanded = len(explored) + len(Path)
+                    SearchDepth = len(Path)
+                    MaxSearchDepth = len(Path)
                     Resources = calculate_resources()
                     return child.find_solution()
                 count += 1
@@ -423,13 +431,13 @@ def writeOutput(path, cost_of_path, nodes_expanded, search_depth, max_search_dep
     filename = 'outputs' + '.txt'
     filepath = os.path.join(current_path,filename) # add * if joining list items
     file = open(filepath, 'w')
-    file.write("path_to_goal: " + str(path) + "\n")
-    file.write("cost_of_path: " + str(cost_of_path) + "\n")
-    file.write("nodes_expanded: " + str(nodes_expanded) + "\n")
-    file.write("search_depth: " + str(search_depth) + "\n")
-    file.write("max_search_depth: " + str(max_search_depth) + "\n")
-    file.write("running_time: " + format(time_count, '.8f') + "\n")
-    file.write("max_ram_usage: " + format(resources, '.8f') + " megabytes" + "\n")
+    file.write("path_to_goal: " + str(path) + os.linesep)
+    file.write("cost_of_path: " + str(cost_of_path) + os.linesep)
+    file.write("nodes_expanded: " + str(nodes_expanded) + os.linesep)
+    file.write("search_depth: " + str(search_depth) + os.linesep)
+    file.write("max_search_depth: " + str(max_search_depth) + os.linesep)
+    file.write("running_time: " + format(time_count, '.8f') + os.linesep)
+    file.write("max_ram_usage: " + format(resources, '.8f') + " megabytes" + os.linesep)
     file.close()
 
 
@@ -439,14 +447,12 @@ def calculate_resources():
     Note: RSS results are provided transformed to megabytes from bytes
     """
     if sys.platform == "win32":
-        import psutil 
         RSS_Mb = float (psutil.Process().memory_info().rss) / 10**6  
         return RSS_Mb
     else:
         # Note: if you execute Python from cygwin,
         # the sys.platform is "cygwin"
         # the grading system's sys.platform is "linux2"
-        import resource
         #print("resource", resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
         return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
 
